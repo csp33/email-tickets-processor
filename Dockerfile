@@ -82,7 +82,7 @@ RUN --mount=type=cache,target=/root/.cache \
 # will become mountpoint of our code
 WORKDIR /app
 
-CMD ["python", "src/main.py"]
+CMD ["python", "-m", "src.main"]
 
 
 ################################
@@ -94,4 +94,4 @@ FROM python-base AS production
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY ./src /app/src
 WORKDIR /app
-CMD ["python", "src/main.py"]
+CMD ["python", "-m", "src.main"]
