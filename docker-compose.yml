@@ -1,0 +1,41 @@
+services:
+  api:
+    image: email-tickets-processor:local
+    build:
+      context: .
+      target: development
+    env_file:
+      - .env
+    develop:
+      watch:
+        - action: sync
+          path: ./
+          target: /app/
+        - action: rebuild
+          path: poetry.lock
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+      - ./secret_files:/files
+    depends_on:
+      - database
+
+  database:
+    image: postgres:16.1-bookworm
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+    ports:
+      - "5430:5432"
+    volumes:
+      - postgresql_data:/var/lib/postgresql
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U postgres -d postgres'" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  postgresql_data:
