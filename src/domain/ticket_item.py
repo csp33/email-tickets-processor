@@ -1,16 +1,17 @@
-from sqlalchemy import Column, Float, String, Integer
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy import Column, Float, String, Integer, ForeignKey
+from sqlalchemy.orm import relationship
 
-
-class Base(DeclarativeBase):
-    pass
+from src.domain.base import Base
 
 
 class TicketItem(Base):
     __tablename__ = "ticket_items"
 
     id = Column(Integer, primary_key=True)
-    quantity = Column(Integer)
-    description = Column(String)
-    unit_price = Column(Float)
-    total_price = Column(Float)
+    quantity = Column(Float, nullable=False)
+    description = Column(String, nullable=False)
+    unit_price = Column(Float, nullable=False)
+    total_price = Column(Float, nullable=False)
+
+    ticket_id = Column(Integer, ForeignKey("tickets.id"), nullable=False)
+    ticket = relationship("Ticket", back_populates="items")

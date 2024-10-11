@@ -8,7 +8,9 @@ from googleapiclient.discovery import build
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from src.domain.ticket_item import Base, TicketItem
+from src.domain.base import Base
+from src.domain.ticket import Ticket
+from src.domain.ticket_item import TicketItem
 
 API_URL = os.environ["API_URL"]
 SENDER_EMAILS = os.environ["ALLOWED_EMAILS"].split(",")
@@ -75,12 +77,17 @@ def ingest_data_to_postgres(data):
     Session = sessionmaker(bind=engine)
     session = Session()
 
+    new_ticket = Ticket(timestamp=data["timestamp"])
+    session.add(new_ticket)
+    session.commit()
+
     for item in data["items"]:
         new_item = TicketItem(
             quantity=item["quantity"],
             description=item["description"],
             unit_price=item["unit_price"],
             total_price=item["total_price"],
+            ticket_id=new_ticket.id,
         )
         session.add(new_item)
 
