@@ -88,7 +88,7 @@ def ingest_data_to_postgres(data):
             unit_price=item["unit_price"],
             total_price=item["total_price"],
             ticket_id=new_ticket.id,
-            is_weighted_product=float(item["quantity"]) == int(item["quantity"]),
+            is_weighted_product=float(item["quantity"]) != int(item["quantity"]),
         )
         session.add(new_item)
 

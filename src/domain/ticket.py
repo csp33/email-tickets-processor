@@ -8,5 +8,5 @@ class Ticket(Base):
     __tablename__ = "tickets"
 
     id = Column(Integer, primary_key=True)
-    timestamp = Column(DateTime, nullable=False)
+    timestamp = Column(DateTime, nullable=False, unique=True)
     items = relationship("TicketItem", back_populates="ticket")
