@@ -1,6 +1,7 @@
 import base64
 import os
 import tempfile
+import traceback
 
 import requests
 from google.oauth2.credentials import Credentials
@@ -38,7 +39,11 @@ def check_for_new_emails(service):
 
     for message in messages:
         msg = service.users().messages().get(userId="me", id=message["id"]).execute()
-        process_email(msg, service, message["id"])
+        try:
+            process_email(msg, service, message["id"])
+        except Exception:
+            traceback.print_exc()
+            continue
 
 
 def process_email(msg, service, message_id):
