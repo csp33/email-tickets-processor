@@ -1,5 +1,5 @@
 services:
-  api:
+  processor:
     image: email-tickets-processor:local
     build:
       context: .
