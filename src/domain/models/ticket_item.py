@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Float, String, Integer, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
-from src.domain.base import Base
+from src.domain.models.base import Base
 
 
 class TicketItem(Base):

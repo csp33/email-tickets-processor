@@ -1,7 +1,7 @@
 from sqlalchemy import Integer, Column, DateTime
 from sqlalchemy.orm import relationship
 
-from src.domain.base import Base
+from src.domain.models.base import Base
 
 
 class Ticket(Base):
