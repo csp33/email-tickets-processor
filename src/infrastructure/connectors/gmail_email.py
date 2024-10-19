@@ -2,6 +2,7 @@ import base64
 from typing import Generator
 
 from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 
 from src.domain.connectors.email import EmailConnector
@@ -17,6 +18,8 @@ class GmailEmailConnector(EmailConnector):
         credentials = Credentials.from_authorized_user_file(
             token_filepath, self.__SCOPES
         )
+        if credentials.expired and credentials.refresh_token:
+            credentials.refresh(Request())
         self.__service = build("gmail", "v1", credentials=credentials)
 
     def get_emails(self, query: str) -> list:
