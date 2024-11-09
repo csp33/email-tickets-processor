@@ -30,11 +30,3 @@ clean-env:
 	docker compose down --volumes
 
 reset-env: clean-env upgrade-env
-
-tests: unit-tests integration-tests
-
-unit-tests:
-	docker compose --profile testing run processor-unit-tests
-
-integration-tests: run-migrations
-	docker compose --profile integration-testing run processor-integration-tests
