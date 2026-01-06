@@ -26,7 +26,7 @@ class GmailEmailConnector(EmailConnector):
         results = (
             self.__service.users()
             .messages()
-            .list(userId="me", q=query, labelIds=["INBOX"], maxResults=10)
+            .list(userId="me", q=query, labelIds=["INBOX"], maxResults=100)
             .execute()
         )
         return results.get("messages", [])
